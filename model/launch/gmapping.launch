@@ -1,0 +1,15 @@
+<launch>
+    <param name="use_sim_time" value="true"/>
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+        <remap from="scan" to="/rrbot/laser/scan"/>
+    </node>
+    <node pkg="move_base" type="move_base" respawn="true" name="move_base" output="screen">
+        <rosparam file="$(find inf_navigation)/costmap_common_params.yaml" command="load" ns="global_costmap" />
+	    <rosparam file="$(find inf_navigation)/costmap_common_params.yaml" command="load" ns="local_costmap" />
+	    <rosparam file="$(find inf_navigation)/local_costmap_params.yaml" command="load" />
+	    <rosparam file="$(find inf_navigation)/global_costmap_params.yaml" command="load" />
+	    <rosparam file="$(find inf_navigation)/base_local_planner_params.yaml" command="load" />
+	    <param name="base_global_planner" type="string" value="navfn/NavfnROS" />
+	    <param name="controller_frequency" type="double" value="6.0" />
+    </node>    
+</launch>
